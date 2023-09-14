@@ -1,0 +1,103 @@
+<div class="ban-con">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>¡HOLA ADMINISTRADOR!</h2>
+        </div>
+    </div>
+</div>
+<div class="tinkerConectar ">
+    <div class="container">
+        <div class="row padding100">
+            <div class=" col-md-12">
+                <h1>Control de Verificaciones</h1>
+                
+                <hr>
+                <div class="row">
+                    <div class="col-md-4">
+                         
+
+                         <div class="list-group">
+                            <button type="button" class="list-group-item list-group-item-action active" aria-current="true" disabled>
+                                Menu Administrativo
+                            </button>
+                            <button type="button" class="list-group-item list-group-item-action" onclick="nuevo()"><i class="fa-regular fa-file"></i> Nuevo Registro</button>
+                            <button type="button" class="list-group-item list-group-item-action" onclick="listar()"><i class="fa-regular fa-folder-open"></i> Gestor de Avalúos</button>
+                            <button type="button" class="list-group-item list-group-item-action"  onclick="btnSalir()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar Sesión</button>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="col-md-1"></div>
+
+                    <div class="col-md-7">
+                        <div id="nuevoregistro" style="display:none;">
+                            <h2>Nuevo Registro</h2>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control inputverifica" id="referencia" placeholder="Referencia">
+                                <label for="referencia">Referencia</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control inputverifica" id="propietario" placeholder="Propietario">
+                                <label for="propietario">Propietario</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control inputverifica" id="folio" placeholder="Folio">
+                                <label for="folio">Folio</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="date" class="form-control inputverifica" id="fecha" placeholder="Fecha de Inspección">
+                                <label for="fecha">Fecha de Inspección</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control inputverifica" id="cliente" placeholder="Cliente">
+                                <label for="cliente">Cliente</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control inputverifica" id="valormercado" placeholder="Valor de Mercado">
+                                <label for="valormercado">Valor de Mercado</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control inputverifica" id="valorventa" placeholder="Valor de Venta Forzosa">
+                                <label for="valorventa">Valor de Venta Forzosa</label>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary btn-lg btn-guardar" type="button" onclick="guardar()">Guardar</button>
+                                <button class="btn btn-primary btn-lg btn-cargando" type="button" style="display:none;">Cargando <i class="fa-solid fa-spinner fa-spin"></i></button>
+                            </div>
+   
+
+                           
+                        </div>
+
+
+                        <div id="gestosavaluos" style="display:none;">
+                            <h2>Gestor de Avalúos</h2>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Cliente</th>
+                                        <th scope="col">Fecha de Inspección</th>
+                                        <th scope="col">Avaluo</th>
+                                        <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="resultados">
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                </div>
+
+               
+            </div>
+        </div>
+    </div>
+</div>
