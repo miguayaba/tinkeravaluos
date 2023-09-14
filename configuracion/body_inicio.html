@@ -1,0 +1,155 @@
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js'
+import {  getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, signInWithPopup} from 'https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js'
+import { getFirestore,addDoc, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.9.1/firebase-firestore.js'
+
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCjWEUERXz9SjtoGXdq9dXxDpHO87Zv5Kg",
+    authDomain: "tinkeravaluos-3ec49.firebaseapp.com",
+    projectId: "tinkeravaluos-3ec49",
+    storageBucket: "tinkeravaluos-3ec49.appspot.com",
+    messagingSenderId: "146095364013",
+    appId: "1:146095364013:web:da25886dcb43a5bb7c7324"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  window.db = getFirestore(app);
+  
+
+
+const auth = getAuth();
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+
+    console.log('Estoy logueago')
+    const uid = user.uid;
+    localStorage.setItem('uid', uid)
+    verificarCuenta(uid)
+    
+    
+  } else {
+    if (window.location.pathname === "/app/admin") {
+      console.log('NO Estoy logueago 1')
+      window.location = "/app/login";
+      console.log("Estás en Admin");
+      localStorage.removeItem('uid')
+    } else {
+      localStorage.removeItem('uid')
+      console.log('NO Estoy logueago 2')
+    }
+
+  }
+});
+
+
+window.login =  function ingresar(){
+
+    var email = $('#email').val();
+    var password = $('#password').val();
+    $('.btn-guardar').hide()
+    $('.btn-cargando').show()
+
+    if(!email){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'No has ingresado email',
+        })
+       console.log('')
+        $('.btn-guardar').show()
+        $('.btn-cargando').hide()
+        $('#email').addClass('inputError')
+        $('#email').focus()
+        return false;
+    }
+
+    if(!password){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'No has ingresado password',
+        })
+        $('.btn-guardar').show()
+        $('.btn-cargando').hide()
+        $('#clave').addClass('inputError')
+        $('#clave').focus()
+        return false;
+    }
+
+  const auth = getAuth();
+  
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      localStorage.setItem('photoURL', user.photoURL)
+      //console.log(user)
+       verificarCuenta(user.uid)
+    })
+    .catch((error) => {
+      $('.indicator-progress').hide()
+      $('.indicator-label').show()
+      const errorCode = error.code;
+      console.log(errorCode)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'ERROR: ' + errorCode,
+      })
+
+      $('.btn-guardar').show()
+      $('.btn-cargando').hide()
+
+    });
+}
+
+
+
+window.verificarCuenta = async function verificarCuenta(valor){
+  
+  const q = query(collection(db, "usuarios"), where("cuenta", "==", valor));
+  const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+
+      $('.nombreusuario').html(doc.data().nombre)
+      $('.emailusuario').html(doc.data().email)
+      localStorage.setItem('nombreusuario', doc.data().nombre)
+      localStorage.setItem('emailusuario', doc.data().email)
+
+      if(doc.data().rol < 90){
+        btnSalir()
+      }else{
+        if (window.location.pathname === "/app/login") {
+          window.location = "/app/admin";
+        }
+      }
+
+    });
+
+  
+}
+
+
+
+
+window.btnSalir =  function salir(){
+    console.log('entro a salir')
+    const auth = getAuth();
+    signOut(auth).then(() => {
+        // Sign-out successful.
+        window.location = "/"
+
+        localStorage.removeItem('uid')
+        localStorage.removeItem('nombreusuario')
+        localStorage.removeItem('emailusuario')
+
+    }).catch((error) => {
+        // An error happened.
+    });
+
+}
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
